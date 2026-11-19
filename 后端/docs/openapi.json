@@ -1,0 +1,1345 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "JSON Repair Workbench",
+    "description": "Local JSON repair, schema validation, streaming and audit workbench.",
+    "version": "0.64.9"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/presets": {
+      "get": {
+        "summary": "List Presets",
+        "operationId": "list_presets_api_presets_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Preset"
+                  },
+                  "type": "array",
+                  "title": "Response List Presets Api Presets Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/repair": {
+      "post": {
+        "summary": "Repair",
+        "operationId": "repair_api_repair_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RepairRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RepairResultModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request Entity Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stream/simulate": {
+      "post": {
+        "summary": "Simulate",
+        "operationId": "simulate_api_stream_simulate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StreamRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request Entity Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stream/sse": {
+      "post": {
+        "summary": "Stream",
+        "operationId": "stream_api_stream_sse_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StreamRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "SSE frame events carry StreamFrame JSON. The final done event carries the stream summary.",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request Entity Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schema/validate": {
+      "post": {
+        "summary": "Validate",
+        "operationId": "validate_api_schema_validate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request Entity Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/benchmarks/run": {
+      "post": {
+        "summary": "Benchmarks",
+        "operationId": "benchmarks_api_benchmarks_run_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BenchmarkResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request Entity Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dos/audit": {
+      "post": {
+        "summary": "Audit",
+        "operationId": "audit_api_dos_audit_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request Entity Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuditCheck": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "FAIL"
+            ],
+            "title": "Status"
+          },
+          "elapsed_us": {
+            "type": "number",
+            "title": "Elapsed Us"
+          },
+          "metrics": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metrics"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "elapsed_us",
+          "metrics"
+        ],
+        "title": "AuditCheck"
+      },
+      "AuditResult": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "FAIL"
+            ],
+            "title": "Status"
+          },
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/AuditCheck"
+            },
+            "type": "array",
+            "title": "Checks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "checks"
+        ],
+        "title": "AuditResult"
+      },
+      "BaselineComparison": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "commit": {
+            "type": "string",
+            "title": "Commit"
+          },
+          "repaired_json": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Repaired Json"
+          },
+          "repaired_object": {
+            "title": "Repaired Object"
+          },
+          "schema_valid": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema Valid"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "latency_us": {
+            "type": "number",
+            "title": "Latency Us"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version",
+          "commit",
+          "latency_us"
+        ],
+        "title": "BaselineComparison"
+      },
+      "BenchmarkMetrics": {
+        "properties": {
+          "valid_json_rate": {
+            "type": "number",
+            "title": "Valid Json Rate"
+          },
+          "schema_pass_rate": {
+            "type": "number",
+            "title": "Schema Pass Rate"
+          },
+          "field_f1": {
+            "type": "number",
+            "title": "Field F1"
+          },
+          "stream_stability_rate": {
+            "type": "number",
+            "title": "Stream Stability Rate"
+          },
+          "p95_us": {
+            "type": "number",
+            "title": "P95 Us"
+          },
+          "p99_us": {
+            "type": "number",
+            "title": "P99 Us"
+          }
+        },
+        "type": "object",
+        "required": [
+          "valid_json_rate",
+          "schema_pass_rate",
+          "field_f1",
+          "stream_stability_rate",
+          "p95_us",
+          "p99_us"
+        ],
+        "title": "BenchmarkMetrics"
+      },
+      "BenchmarkObservation": {
+        "properties": {
+          "valid_json": {
+            "type": "boolean",
+            "title": "Valid Json"
+          },
+          "schema_valid": {
+            "type": "boolean",
+            "title": "Schema Valid"
+          },
+          "field_f1": {
+            "type": "number",
+            "title": "Field F1"
+          },
+          "stream_stable": {
+            "type": "boolean",
+            "title": "Stream Stable"
+          },
+          "observable_stream_frames": {
+            "type": "integer",
+            "title": "Observable Stream Frames"
+          },
+          "container_type_flips": {
+            "type": "integer",
+            "title": "Container Type Flips"
+          },
+          "latency_us": {
+            "type": "number",
+            "title": "Latency Us"
+          },
+          "repaired_object": {
+            "title": "Repaired Object"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "valid_json",
+          "schema_valid",
+          "field_f1",
+          "stream_stable",
+          "observable_stream_frames",
+          "container_type_flips",
+          "latency_us",
+          "repaired_object",
+          "error"
+        ],
+        "title": "BenchmarkObservation"
+      },
+      "BenchmarkResult": {
+        "properties": {
+          "sample_count": {
+            "type": "integer",
+            "title": "Sample Count"
+          },
+          "category_count": {
+            "type": "integer",
+            "title": "Category Count"
+          },
+          "modes": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/BenchmarkMetrics"
+            },
+            "propertyNames": {
+              "enum": [
+                "json_loads",
+                "upstream_baseline",
+                "enhanced_coerce",
+                "enhanced_salvage"
+              ]
+            },
+            "type": "object",
+            "title": "Modes"
+          },
+          "by_category": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "$ref": "#/components/schemas/BenchmarkMetrics"
+              },
+              "propertyNames": {
+                "enum": [
+                  "json_loads",
+                  "upstream_baseline",
+                  "enhanced_coerce",
+                  "enhanced_salvage"
+                ]
+              },
+              "type": "object"
+            },
+            "type": "object",
+            "title": "By Category"
+          },
+          "samples": {
+            "items": {
+              "$ref": "#/components/schemas/BenchmarkSample"
+            },
+            "type": "array",
+            "title": "Samples"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sample_count",
+          "category_count",
+          "modes",
+          "by_category",
+          "samples"
+        ],
+        "title": "BenchmarkResult"
+      },
+      "BenchmarkSample": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "raw_text": {
+            "type": "string",
+            "title": "Raw Text"
+          },
+          "expected": {
+            "title": "Expected"
+          },
+          "results": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/BenchmarkObservation"
+            },
+            "propertyNames": {
+              "enum": [
+                "json_loads",
+                "upstream_baseline",
+                "enhanced_coerce",
+                "enhanced_salvage"
+              ]
+            },
+            "type": "object",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "category",
+          "raw_text",
+          "expected",
+          "results"
+        ],
+        "title": "BenchmarkSample"
+      },
+      "ErrorDetail": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit"
+          },
+          "observed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observed"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorDetail"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "detail": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorDetail"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ErrorDetail"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "ErrorResponse"
+      },
+      "HealthResult": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "uptime_ms": {
+            "type": "integer",
+            "title": "Uptime Ms"
+          },
+          "preset_count": {
+            "type": "integer",
+            "title": "Preset Count"
+          },
+          "engine_capabilities": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "type": "object",
+            "title": "Engine Capabilities"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "version",
+          "uptime_ms",
+          "preset_count",
+          "engine_capabilities"
+        ],
+        "title": "HealthResult"
+      },
+      "Preset": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "raw_text": {
+            "type": "string",
+            "title": "Raw Text"
+          },
+          "json_schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Json Schema"
+          },
+          "policy": {
+            "type": "string",
+            "enum": [
+              "strict",
+              "coerce",
+              "salvage"
+            ],
+            "title": "Policy",
+            "default": "coerce"
+          },
+          "chunk_size": {
+            "type": "integer",
+            "title": "Chunk Size",
+            "default": 8
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "category",
+          "raw_text",
+          "description"
+        ],
+        "title": "Preset"
+      },
+      "RepairOp": {
+        "properties": {
+          "stage": {
+            "type": "string",
+            "enum": [
+              "preprocess",
+              "syntax",
+              "semantic"
+            ],
+            "title": "Stage"
+          },
+          "op": {
+            "type": "string",
+            "title": "Op"
+          },
+          "path": {
+            "type": "string",
+            "title": "Path"
+          },
+          "before": {
+            "title": "Before"
+          },
+          "after": {
+            "title": "After"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "risk": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Risk",
+            "default": "low"
+          }
+        },
+        "type": "object",
+        "required": [
+          "stage",
+          "op",
+          "path",
+          "before",
+          "after",
+          "reason"
+        ],
+        "title": "RepairOp"
+      },
+      "RepairRequest": {
+        "properties": {
+          "raw_text": {
+            "type": "string",
+            "title": "Raw Text"
+          },
+          "json_schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Json Schema"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "enhanced",
+              "baseline"
+            ],
+            "title": "Mode",
+            "default": "enhanced"
+          },
+          "policy": {
+            "type": "string",
+            "enum": [
+              "strict",
+              "coerce",
+              "salvage"
+            ],
+            "title": "Policy",
+            "default": "coerce"
+          },
+          "clean_llm": {
+            "type": "boolean",
+            "title": "Clean Llm",
+            "default": true
+          },
+          "redact_logs": {
+            "type": "boolean",
+            "title": "Redact Logs",
+            "default": true
+          },
+          "compare_baseline": {
+            "type": "boolean",
+            "title": "Compare Baseline",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "raw_text"
+        ],
+        "title": "RepairRequest"
+      },
+      "RepairResultModel": {
+        "properties": {
+          "repaired_json": {
+            "type": "string",
+            "title": "Repaired Json"
+          },
+          "repaired_object": {
+            "title": "Repaired Object"
+          },
+          "schema_valid": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema Valid"
+          },
+          "validation_errors": {
+            "items": {
+              "$ref": "#/components/schemas/SchemaValidationIssue"
+            },
+            "type": "array",
+            "title": "Validation Errors"
+          },
+          "operations": {
+            "items": {
+              "$ref": "#/components/schemas/RepairOp"
+            },
+            "type": "array",
+            "title": "Operations"
+          },
+          "confidence_score": {
+            "type": "number",
+            "title": "Confidence Score"
+          },
+          "latency_us": {
+            "type": "number",
+            "title": "Latency Us"
+          },
+          "secrets_redacted": {
+            "type": "integer",
+            "title": "Secrets Redacted"
+          },
+          "baseline_comparison": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BaselineComparison"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "repaired_json",
+          "repaired_object",
+          "schema_valid",
+          "validation_errors",
+          "operations",
+          "confidence_score",
+          "latency_us",
+          "secrets_redacted"
+        ],
+        "title": "RepairResultModel"
+      },
+      "SchemaValidationIssue": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "title": "Path"
+          },
+          "schema_path": {
+            "type": "string",
+            "title": "Schema Path"
+          },
+          "keyword": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Keyword"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "path",
+          "schema_path",
+          "keyword",
+          "message"
+        ],
+        "title": "SchemaValidationIssue"
+      },
+      "StreamFrame": {
+        "properties": {
+          "frame_index": {
+            "type": "integer",
+            "title": "Frame Index"
+          },
+          "chunk": {
+            "type": "string",
+            "title": "Chunk"
+          },
+          "accumulated_len": {
+            "type": "integer",
+            "title": "Accumulated Len"
+          },
+          "baseline_value": {
+            "title": "Baseline Value"
+          },
+          "baseline_container_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "object",
+                  "array"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Baseline Container Type"
+          },
+          "baseline_type_flipped": {
+            "type": "boolean",
+            "title": "Baseline Type Flipped"
+          },
+          "enhanced_value": {
+            "title": "Enhanced Value"
+          },
+          "enhanced_container_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "object",
+                  "array"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enhanced Container Type"
+          },
+          "enhanced_type_flipped": {
+            "type": "boolean",
+            "title": "Enhanced Type Flipped"
+          },
+          "stable_paths": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Stable Paths"
+          },
+          "pending_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pending Path"
+          },
+          "is_complete": {
+            "type": "boolean",
+            "title": "Is Complete"
+          },
+          "elapsed_us": {
+            "type": "number",
+            "title": "Elapsed Us"
+          }
+        },
+        "type": "object",
+        "required": [
+          "frame_index",
+          "chunk",
+          "accumulated_len",
+          "baseline_value",
+          "baseline_container_type",
+          "baseline_type_flipped",
+          "enhanced_value",
+          "enhanced_container_type",
+          "enhanced_type_flipped",
+          "stable_paths",
+          "pending_path",
+          "is_complete",
+          "elapsed_us"
+        ],
+        "title": "StreamFrame"
+      },
+      "StreamRequest": {
+        "properties": {
+          "raw_text": {
+            "type": "string",
+            "title": "Raw Text"
+          },
+          "json_schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Json Schema"
+          },
+          "policy": {
+            "type": "string",
+            "enum": [
+              "strict",
+              "coerce",
+              "salvage"
+            ],
+            "title": "Policy",
+            "default": "coerce"
+          },
+          "clean_llm": {
+            "type": "boolean",
+            "title": "Clean Llm",
+            "default": true
+          },
+          "redact_logs": {
+            "type": "boolean",
+            "title": "Redact Logs",
+            "default": true
+          },
+          "chunk_size": {
+            "type": "integer",
+            "maximum": 262144.0,
+            "minimum": 1.0,
+            "title": "Chunk Size",
+            "default": 8
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "raw_text"
+        ],
+        "title": "StreamRequest"
+      },
+      "StreamResult": {
+        "properties": {
+          "baseline_type_flips": {
+            "type": "integer",
+            "title": "Baseline Type Flips"
+          },
+          "enhanced_type_flips": {
+            "type": "integer",
+            "title": "Enhanced Type Flips"
+          },
+          "total_frames": {
+            "type": "integer",
+            "title": "Total Frames"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "frames": {
+            "items": {
+              "$ref": "#/components/schemas/StreamFrame"
+            },
+            "type": "array",
+            "title": "Frames"
+          }
+        },
+        "type": "object",
+        "required": [
+          "baseline_type_flips",
+          "enhanced_type_flips",
+          "total_frames",
+          "frames"
+        ],
+        "title": "StreamResult"
+      },
+      "ValidationRequest": {
+        "properties": {
+          "value": {
+            "title": "Value"
+          },
+          "json_schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "boolean"
+              }
+            ],
+            "title": "Json Schema"
+          },
+          "redact_logs": {
+            "type": "boolean",
+            "title": "Redact Logs",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "value",
+          "json_schema"
+        ],
+        "title": "ValidationRequest"
+      },
+      "ValidationResult": {
+        "properties": {
+          "schema_valid": {
+            "type": "boolean",
+            "title": "Schema Valid"
+          },
+          "validation_errors": {
+            "items": {
+              "$ref": "#/components/schemas/SchemaValidationIssue"
+            },
+            "type": "array",
+            "title": "Validation Errors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "schema_valid",
+          "validation_errors"
+        ],
+        "title": "ValidationResult"
+      }
+    }
+  }
+}

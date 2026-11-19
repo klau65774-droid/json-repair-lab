@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  background: #0A0D12;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #263246 #0A0D12;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0A0D12;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #263246;
+  border: 2px solid #0A0D12;
+  border-radius: 6px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #0A0D12;
+  color: #E5EAF2;
+  font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  font-size: 13px;
+}
+
+button,
+textarea,
+input,
+select {
+  font: inherit;
+}
+
+button,
+select,
+input[type='range'] {
+  cursor: pointer;
+}
+
+button:disabled,
+select:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.32);
+  color: #fff;
+}
+
+@layer components {
+  .panel {
+    @apply rounded-md border border-lab-border bg-lab-panel shadow-panel;
+  }
+
+  .section-label {
+    @apply text-[10px] font-semibold uppercase tracking-[0.12em] text-lab-text;
+  }
+
+  .mono-data {
+    @apply font-mono tabular-nums;
+    font-variant-ligatures: none;
+  }
+}
+
+input[type='range'] {
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: #263246;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #0A0D12;
+  background: #3B82F6;
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #0A0D12;
+  background: #3B82F6;
+}

@@ -1,0 +1,210 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "json_repair"
+version = "0.64.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+  { name="Stefano Baccianella", email="4247706+mangiucugna@users.noreply.github.com" },
+]
+description = "A package to repair broken json strings"
+keywords = ["JSON", "REPAIR", "LLM", "PARSER"]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+[project.urls]
+"Homepage" = "https://github.com/mangiucugna/json_repair/"
+"Bug Tracker" = "https://github.com/mangiucugna/json_repair/issues"
+"Live demo" = "https://mangiucugna.github.io/json_repair/"
+[project.optional-dependencies]
+schema = [
+  "jsonschema>=4.21",
+  "pydantic>=2",
+]
+server = [
+  "fastapi>=0.115",
+  "uvicorn>=0.32",
+  "httpx>=0.27",
+  "jsonschema>=4.21",
+]
+[dependency-groups]
+dev = [
+    { include-group = "schema" },
+    { include-group = "test" },
+    { include-group = "typecheck" },
+    "pre-commit",
+]
+schema = [
+    "jsonschema",
+    "pydantic",
+]
+test = [
+    "coverage",
+    "flask>=3",
+    "flask-cors>=6",
+    "pytest",
+    "pytest-benchmark",
+]
+typecheck = [
+    "mypy",
+    "ty",
+]
+[tool.uv.dependency-groups]
+dev = { requires-python = ">=3.13" }
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/.cursor/extensions/*",
+    "*/pythonFiles/lib/python/*",
+    "*/site-packages/*",
+    # The pinned release archive is third-party comparison data.
+    "*/_upstream_v0649.zip/*",
+    "src/json_repair/__main__.py",
+]
+[tool.coverage.report]
+include = [
+    "src/json_repair/*",
+]
+exclude_also = [
+    'def __repr__',
+    'if self.debug:',
+    'if settings.DEBUG',
+    'raise AssertionError',
+    'raise NotImplementedError',
+    'if 0:',
+    'if __name__ == .__main__.:',
+    'if TYPE_CHECKING:',
+    'class .*\bProtocol\):',
+    '@(abc\.)?abstractmethod',
+]
+[tool.setuptools.package-data]
+"json_repair" = ["py.typed"]
+"json_repair.server" = ["_upstream_v0649.zip"]
+[tool.setuptools.packages.find]
+where = ["src"]
+[project.scripts]
+json_repair = "json_repair.__main__:cli"
+[tool.ruff]
+# Same as Black.
+indent-width = 4
+line-length = 120
+# Keep documentation code examples outside Ruff's formatter scope.
+extend-exclude = ["*.md"]
+# Assume Python 3.13
+target-version = "py313"
+[tool.ruff.lint]
+preview = true
+explicit-preview-rules = true
+# Read more here https://docs.astral.sh/ruff/rules/
+# By default, Ruff enables Flake8's E and F rules
+# FastAPI - FAST
+# Flake8-no-pep420 - INP
+# Flake8-bandit - S
+# Flake8-bugbear – catches real-world Python footguns - B
+# Flake8-builtins - A
+# Flake8-comprehensions  - C4
+# Flake8-blind-except - BLE
+# Flake8-datetimez - DTZ
+# Flake8-debugger - T10
+# Flake8-executable - EXE
+# Flake8-logging and logging-format - LOG, G
+# Flake8-commas - COM
+# Flake8-implicit-str-concat - ISC
+# Flake8-print - T20
+# Flake8-quotes - Q
+# Flake8-raise - RSE
+# Flake8-return - RET
+# Flake8-tidy-imports - TID
+# Flake8-type-checking - TC
+# Flake8-unused-arguments - ARG
+# Refurb - FURB
+# Isort - I
+# Mccabe – code complexity warnings - C90
+# PEP 8 Naming convention - N
+# Perflint - PERF
+# Pygrep-hooks - PGH
+# flake8-pie - PIE
+# Flake8-use-pathlib - PTH
+# Pycodestyle - E, W
+# Pyflakes - F
+# Pylint - PLC, PLE, PLR, PLW
+# PyTest - PT
+# Pyupgrade – safe modernization (e.g., str() → f"") - UP
+# Flake8-2020 - YTT
+# Eradicate - ERA
+# Flake8-annotations - ANN
+# Ruff specific - RUF
+# Simplifications (e.g., if x == True → if x) - SIM
+select = ['A', 'ANN', 'ARG', 'B', 'BLE', 'C4', 'COM', 'C90', 'DTZ', 'E', 'ERA', 'EXE', 'F', 'FURB', 'G', 'I', 'INP', 'ISC', 'LOG', 'N', 'PERF', 'PGH', 'PIE', 'PLC', 'PLE', 'PLW', 'PT', 'PTH', 'Q', 'RET', 'RSE', 'S', 'SIM', 'T10', 'T20', 'TC', 'TID', 'UP', 'W', 'YTT']
+# Additional individual rules
+extend-select = [
+  "RUF001",  # ambiguous Unicode
+  "RUF100",  # unused noqa
+  "RUF012",  # mutable class defaults
+  "RUF013",  # implicit optional annotations
+  "RUF016",  # invalid index types
+  "RUF017",  # avoid quadratic list summation
+  "RUF018",  # assignment expressions in assertions
+  "RUF005",  # collection literal concatenation
+  "RUF008",  # mutable dataclass defaults
+  "RUF010",  # prefer explicit conversion flags in f-strings
+  "RUF019",  # prefer dict.get over redundant key checks
+  "RUF021",  # clarify mixed and/or precedence
+  "RUF022",  # keep __all__ sorted
+  "RUF024",  # prevent shared mutable values in dict.fromkeys
+  "RUF009",  # avoid function calls as dataclass defaults
+  "RUF043",  # make pytest.raises regex intent explicit
+  "RUF064",  # use octal file permissions
+  "RUF068",  # duplicate __all__ entries
+  "RUF071",  # avoid character-based path prefix checks
+  "RUF102",  # invalid rule codes in noqa comments
+  "RUF103",  # invalid Ruff suppression comments
+  "RUF200",  # validate pyproject.toml metadata
+  "FBT003",  # make boolean arguments explicit at call sites
+  "PLR1714", # repeated equality comparisons
+  "PLR0917", # limit positional arguments
+  "PLR5501", # collapsible else-if
+  "PLW1514", # require explicit text encoding
+  "TRY300",  # keep returns out of try blocks
+  "TRY004",  # use TypeError for invalid types
+]
+ignore = [
+  "ANN401", # Allow Any; mypy and ty handle type checking.
+  "S101",   # assert: Use of assert detected. We like assert
+  "COM812", # Ruff: The following rule may cause conflicts when used with the formatter
+  "E501",   # Line too long
+  "C901",   # `function` is too complex
+]
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+# Explicit re-exports is fine in __init__.py, still a code smell elsewhere.
+"__init__.py" = ["PLC0414"]
+"src/json_repair/json_repair.py" = ["T201"]
+"tests/profiler.py" = ["T201"]
+"!{src,tests}/**.py" = ["ANN"]
+[tool.mypy]
+strict = true

@@ -1,0 +1,38 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+      # https://github.com/actions/python-versions/blob/main/versions-manifest.json
+        python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
+
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install the latest version of uv
+      uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
+      with:
+        activate-environment: true
+    - name: Test with pytest
+      run: |
+        uv run --no-default-groups --group test --frozen pytest tests/test_json_repair.py
